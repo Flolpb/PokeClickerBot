@@ -1,0 +1,16 @@
+name: "Création d'une nouvelle release"
+'on':
+  release:
+    types:
+      - published
+jobs:
+  notification_on_discord:
+    name: Envoi d'une notification Discord
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "@everyone La nouvelle version ${{ github.event.release.tag_name }} de {{ EVENT_PAYLOAD.repository.full_name }} est désormais disponible."
